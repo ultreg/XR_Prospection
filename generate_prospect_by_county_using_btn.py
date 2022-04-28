@@ -31,6 +31,7 @@ class ProspectSpiderPerCountry(scrapy.Spider):
         yield scrapy.Request(url=url, callback=self.parse_prospect)
 
     def parse_prospect(self, response):
+
         page_count = 1
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
