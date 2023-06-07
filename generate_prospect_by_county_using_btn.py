@@ -10,6 +10,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from logzero import logger
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import scrapy.utils.misc
+import scrapy.core.scraper
+
+
+def warn_on_generator_with_return_value_stub(spider, callable):
+    pass
+
+
+scrapy.utils.misc.warn_on_generator_with_return_value = warn_on_generator_with_return_value_stub
+scrapy.core.scraper.warn_on_generator_with_return_value = warn_on_generator_with_return_value_stub
 
 
 class ProspectItem(scrapy.Item):

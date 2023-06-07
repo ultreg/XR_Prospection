@@ -2,8 +2,7 @@ import pandas as pd
 from datetime import datetime
 
 
-def manipulation_CSV(num_file):
-    print("Manipulation CSV is running")
+def manipulation_csv(num_file):
     name_company_link = pd.read_csv("CSV/name_company_link.csv")
     name_company_link.duplicated().sum()
     name_company_link_company_size = pd.read_csv("CSV/name_company_link_company_size.csv")
@@ -32,5 +31,6 @@ def manipulation_CSV(num_file):
     result_final = result_final[
         ["Nom societe", "Nom du signataire", "Date de la signature", "Tranche d'effectif", "Departement",
          "Site internet"]]
-    result_final.to_csv("Final CSV/Prospection_Client_{}_scrapped_at_{}.csv".format(num_file, datetime.date(datetime.now())),
+    result_final.to_csv("Final CSV/Prospection_Client_{}_scrapped_at_{}.csv".format(num_file,
+                                                                                    datetime.date(datetime.now())),
                         index=False, encoding='utf-8-sig', sep=";")

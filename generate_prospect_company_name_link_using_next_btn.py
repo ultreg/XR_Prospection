@@ -9,6 +9,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from logzero import logger
 from webdriver_manager.chrome import ChromeDriverManager
+import scrapy.utils.misc
+import scrapy.core.scraper
+
+
+def warn_on_generator_with_return_value_stub(spider, callable):
+    pass
+
+
+scrapy.utils.misc.warn_on_generator_with_return_value = warn_on_generator_with_return_value_stub
+scrapy.core.scraper.warn_on_generator_with_return_value = warn_on_generator_with_return_value_stub
 
 
 class ProspectItem(scrapy.Item):
@@ -33,7 +43,8 @@ class ProspectSpiderLinkUsingNextBtn(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
         driver = webdriver.Chrome(ChromeDriverManager().install())
-        url = 'https://www.securite-routiere.gouv.fr/employeurs-engages/liste-des-employeurs-engages-page-1-57?page=1&range=All&zipcode=All'
+        url = 'https://www.securite-routiere.gouv.fr/employeurs-engages/liste-des-employeurs-engages-page-1-57?page=1' \
+              '&range=All&zipcode=All'
         driver.get(url)
         driver.implicitly_wait(10)
         # Explicit wait
@@ -50,7 +61,6 @@ class ProspectSpiderLinkUsingNextBtn(scrapy.Spider):
             wait.until(EC.presence_of_element_located((By.CLASS_NAME, "company-item")))
             wait.until(EC.presence_of_element_located((By.CLASS_NAME, "page-item")))
             next_btn = driver.find_elements(By.CLASS_NAME, 'page-item')
-
 
             # Go to scrapy
             sel = scrapy.Selector(text=driver.page_source)
