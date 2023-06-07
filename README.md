@@ -59,3 +59,33 @@ All my skills in https://www.linkedin.com/in/gr%C3%A9goire-ultr%C3%A9/
 
 If you have any feedback, please reach out to us at gregoire.ultre@gmail.com.
 
+
+## Création d'un .exe
+
+- Copier en local les scripts Python et les adapter à votre projet de scrapping.
+
+- Dans ProspectDataScrapper : supprimer les dossiers build et dist et le fichier main. spec s'ils existent.
+
+- Ouvrir l'invite de commande en mode administrateur.
+
+- Installer pyinstaller : pip install pyinstaller
+
+- Installer auto-py-to-exe : pip install auto-py-to-exe
+
+- Exécuter auto-py-to-exe depuis le dossier du projet concerné.
+
+- Emplacement des scripts : emplacement de main.py
+
+- Console windows : maintenir la présence de la console tant que la fenêtre de débug est nécessaire.
+
+- Fichiers additionnels : ajout des dossiers CSV, dataset, Différence, Final CSV et ajout des logos utilisés.
+
+- Paramètres : spécifier un output dans répertoire de sortie, bien que l'output puisse se retrouver dans un dossier dist.
+
+- Copier-coller la commande dans votre console PyCharm et exécuter.
+
+- Ajouter les settings dans les "datas" de main.spec et relancer main.spec depuis la console : pyinstaller main.spec
+
+- Source :
+stackoverflow.com/questions/75308876/error-after-running-exe-file-originating-from-scrapy-project/75313625#75313625
+- Vérifier la compatibilité sur votre ordinateur et sur un autre ordinateur avant de supprimer la fenêtre de débug.
