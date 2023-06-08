@@ -1,5 +1,25 @@
 """
-Babla
+A brief description of what this project does and who it's for
+
+Objective:
+XR_ProspectDataScraper aims to scrape data from a website into a csv file.
+
+Here, employers who are committed to road safety can be contacted to be offered
+an innovative offer in terms of prevention.
+
+The graphical interface allows the end user to launch scrapping on an occasional basis and then compare the employers
+who have joined or left the process.
+
+(in French below)
+
+Objectif:
+XR_ProspectDataScraper vise à récupérer les données d'un site Web afin d'obtenir un fichier csv.
+
+Ici, les employeurs qui se sont engagés pour la sécurité routière peuvent être contactés pour se voir proposer
+une offre innovante en matière de prévention.
+
+L'interface graphique permet à l'utilisateur final de lancer un scrapping de façon épisodique puis de comparer
+les fichiers, afin de voir les employeurs qui ont rejoint ou ont quitté la démarche.
 """
 import tkinter
 import os
@@ -15,6 +35,7 @@ from datetime import datetime
 
 
 def start_window(app):
+    """fenêtre de démarrage avec deux boutons pour scrapper le site ou comparer deux fichiers de résultats"""
     btn_scrapping = tkinter.Button(app, text="Scanner", bg="#ED8B00", command=lambda: scrapper(app))
     btn_scrapping.place(x=100, y=75, width=200, height=100)
     btn_compare = tkinter.Button(app, text="Comparer", bg="white", command=lambda: file_choice(app))
@@ -22,6 +43,7 @@ def start_window(app):
 
 
 def show_error_window(entry=""):
+    """message d'erreur"""
     messagebox.showerror("Atention!", "Ceci n'est pas un chemin correct pour enregistrer le document!")
     try:
         entry.delete(0, tkinter.END)
@@ -30,6 +52,7 @@ def show_error_window(entry=""):
 
 
 def scrapper(app):
+    """lancement du scrapping. La connexion à internet n'est vérifiée que dans ce cas."""
     is_connected()
     loading(app, message="Scrapping en cours...")
     ScrappListEmployeEngage()
@@ -38,6 +61,7 @@ def scrapper(app):
 
 
 def loading(app, message="Scrapping en cours..."):
+    """Les deux boutons de démarrage sont effacés et l'interface nous indique qu'un scrapping est en cours."""
     for widget in app.winfo_children():
         widget.destroy()
     lb = tkinter.Label(app, text=message, font=100)
@@ -46,6 +70,7 @@ def loading(app, message="Scrapping en cours..."):
 
 
 def registration(source_dir, app):
+    """Fenêtre d'enregistrement du fichier scrappé ou du fichier de comparaison."""
     for widget in app.winfo_children():
         widget.destroy()
     lb = tkinter.Label(app, text="Indiquez où vous voulez \n mettre votre fichier.", font=100, bg="#5B6770",
@@ -59,6 +84,9 @@ def registration(source_dir, app):
 
 
 def get_path(entry_path_file, source_dir, app):
+    """Lorsque nous appuyons sur valider dans la fenêtre d'enregistrement, cette méthode vérifie si le lien
+    spécifié existe et s'il s'agit bien d'un dossier.
+    S'il existe déjà un document portant le même nom, il est remplacé."""
     list_scrappings = os.listdir(source_dir)
     last_scrapp = list_scrappings[-1]
 
@@ -84,6 +112,7 @@ def get_path(entry_path_file, source_dir, app):
 
 
 def file_choice(app):
+    """Cette fenêtre permet de désigner les deux fichiers à comparer."""
     for widget in app.winfo_children():
         widget.destroy()
     lb = tkinter.Label(app, text="Indiquez le chemin des deux fichiers \n scrappés à comparer", font=50, bg="#5B6770",
@@ -99,6 +128,7 @@ def file_choice(app):
 
 
 def check_path(fichier1, fichier2, app):
+    """Vérifier si le chemin des fichiers à comparer existe et s'il s'agit d'un fichier CSV."""
     if os.path.exists(fichier1.get()) and os.path.exists(fichier2.get()):
         if ".csv" in os.path.splitext(fichier1.get()) and ".csv" in os.path.splitext(fichier2.get()):
             loading_comparer(fichier1.get(), fichier2.get(), app)
@@ -111,6 +141,7 @@ def check_path(fichier1, fichier2, app):
 
 
 def loading_comparer(fichier1, fichier2, app):
+    """Lance simultanément la comparaison des fichiers et l'étiquette comparaison en cours."""
     compare_thread = threading.Thread(target=lambda: compare(fichier1, fichier2, app), daemon=True)
     compare_thread.start()
     for widget in app.winfo_children():
@@ -120,6 +151,7 @@ def loading_comparer(fichier1, fichier2, app):
 
 
 def compare(file_1, file_2, app):
+    """comparaison de deux fichiers"""
     df_1 = pd.read_csv(file_1, sep=";")
     df_2 = pd.read_csv(file_2, sep=";")
     merged = df_1.merge(df_2, on='Nom societe', how='outer', indicator=True)
@@ -155,6 +187,7 @@ def no_difference(app):
 
 
 def is_connected():
+    """test de connexion"""
     try:
         # connect to the host -- tells us if the host is actually
         # reachable
@@ -186,6 +219,7 @@ def chrome_installed():
 
 
 def main():
+    """création de l'interface graphique"""
     os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'settings')
     app = tkinter.Tk()
     app.geometry("400x400")
